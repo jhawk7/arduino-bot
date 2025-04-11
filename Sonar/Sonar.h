@@ -5,15 +5,16 @@
 class Sonar {
   private:
   static const int center = 60;
-  static const int left = 120;
-  static const int right = 0;
+  static const int left = 160;
+  static const int right = -50;
   static const float minDistance = 20.0; //cm
   Servo* servoPtr;
   int trigger;
   int echo;
   
   float check();
-  float checkDirection(int direction);
+  float checkLeft();
+  float checkRight();
 
   public:
   Sonar(int triggerPin, int echoPin, int servoPin);
