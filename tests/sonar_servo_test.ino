@@ -1,9 +1,10 @@
 #include "Sonar.h"
-using namespace std;
 
 Sonar sonar(14,15,10);
 
 void setup() {
+  Serial.begin(9600)
+  Serial.println("starting");
 }
 
 void loop() {

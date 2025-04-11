@@ -2,16 +2,22 @@
 #include <Servo.h> //arduino library
 
 Sonar::Sonar(int triggerPin, int echoPin, int servoPin) {
-  servo.attach(servoPin);
+  servoPtr = new Servo();
+  servoPtr->attach(servoPin);
   trigger = triggerPin;
   echo = echoPin;
   pinMode(trigger, OUTPUT);
   pinMode(echo, INPUT);
   Serial.begin(9600);
-  servo.write(center);
+  servoPtr->write(center);
+}
+
+Sonar::~Sonar() {
+  delete servoPtr;
 }
 
 String Sonar::chooseDirection() {
+  Serial.println("checking available paths..");
   float leftD = checkDirection(left);
   float rightD = checkDirection(right);
 
@@ -20,11 +26,12 @@ String Sonar::chooseDirection() {
   } else if ((rightD >= leftD) && (rightD > minDistance)) {
     return "right";
   } else {
-    return "panic";
+    return "around";
   }
 }
 
 bool Sonar::isPathClear() {
+  Serial.println("checking path..");
   float d = check();
   delay(5);
   return d > minDistance;
@@ -39,17 +46,16 @@ float Sonar::check() {
 
   float duration = pulseIn(echo, HIGH); //gets duration that echoPin was high - echo pin goes high when the receiver receives a sound wave
   float distance = (duration * .0343) / 2; // d = v*t; our velocity is the speed of sound (cm/us) and the time is the duration /2 in us - sound travels to object and back 
-  Serial.println(distance);
   delay(100);
   return distance;
 }
 
 float Sonar::checkDirection(int direction) {
-  servo.write(center);
+  servoPtr->write(center);
   delay(15);
-  servo.write(direction);
+  servoPtr->write(direction);
   float d = check();
   delay(15);
-  servo.write(center);
+  servoPtr->write(center);
   return d;
 }

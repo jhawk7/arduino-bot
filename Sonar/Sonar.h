@@ -8,7 +8,7 @@ class Sonar {
   static const int left = 120;
   static const int right = 0;
   static const float minDistance = 20.0; //cm
-  Servo servo;
+  Servo* servoPtr;
   int trigger;
   int echo;
   
@@ -17,6 +17,7 @@ class Sonar {
 
   public:
   Sonar(int triggerPin, int echoPin, int servoPin);
+  ~Sonar();
   String chooseDirection();
   bool isPathClear();
 };

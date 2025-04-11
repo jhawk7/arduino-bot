@@ -9,6 +9,7 @@ class ServoMotor {
   void stop();
   void rightTurn();
   void leftTurn();
+  void turnAround();
   void spin();
 };
 
